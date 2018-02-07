@@ -1,3 +1,3 @@
 # Documentation
 
-[API Requirements](/PeterClaes/api-requirements_documentation)
+[API Requirements](https://github.com/PeterClaes/api-requirements_documentation)
