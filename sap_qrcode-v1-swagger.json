@@ -1,0 +1,382 @@
+{
+  "basePath": "/ccfin/sapqrcode/v1",
+  "paths": {
+    "/status/runtimes": {
+      "get": {
+        "summary": "Get the runtime configuration",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Get the runtime configuration",
+        "operationId": "GetRuntimeValues",
+        "responses": {
+          "200": {
+            "schema": {
+              "additionalProperties": {
+                "type": "object"
+              },
+              "type": "object"
+            },
+            "description": "Ok"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Dgp-Correlation",
+            "description": "Correlation info",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "tags": [
+          "Status"
+        ],
+        "consumes": []
+      }
+    },
+    "/base64": {
+      "post": {
+        "summary": "Create a QRCode in Base64 format",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Create a QRCode in Base64 format",
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/ResponseQrCode"
+            },
+            "description": "Ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Validation error"
+          },
+          "500": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filenumber",
+            "description": "Identification of invoice",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "receiver",
+            "description": "Identification of receiver",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "Dgp-Correlation",
+            "description": "Correlation info",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "QRs"
+        ],
+        "consumes": []
+      }
+    },
+    "/image": {
+      "post": {
+        "summary": "Create a QRCode as image",
+        "produces": [
+          "image/jpeg"
+        ],
+        "description": "Create a QRCode as image",
+        "operationId": "GetAsImage",
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object"
+            },
+            "description": "Ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Validation error"
+          },
+          "500": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filenumber",
+            "description": "Identification of invoice",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "receiver",
+            "description": "Identification of receiver",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "Dgp-Correlation",
+            "description": "Correlation info",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "QRs"
+        ],
+        "consumes": []
+      }
+    },
+    "/status/monitoring": {
+      "get": {
+        "summary": "Get the global API status and the components statusses.",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Get the global API status and the components statusses.",
+        "operationId": "GetMonitoring",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Monitoring"
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Unauthorized"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Dgp-Correlation",
+            "description": "Correlation info",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "JWT token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Status"
+        ],
+        "consumes": []
+      }
+    },
+    "/status/ping": {
+      "get": {
+        "summary": "Get the global API status.",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Get the global API status.",
+        "operationId": "GetPing",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/StatusResponse"
+            },
+            "description": "Ok"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Dgp-Correlation",
+            "description": "Correlation info",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "tags": [
+          "Status"
+        ],
+        "consumes": []
+      }
+    }
+  },
+  "host": "api-gw-o.antwerpen.be",
+  "schemes": [
+    "https"
+  ],
+  "definitions": {
+    "Error": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "extraParameters": {
+          "additionalProperties": {
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "StatusResponse": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "description": "The global status of the API. It is determined by the status of each of the components. The status is ok when every component is ok and the API is functionally working. The status is warning when at least one component has warning as status. The API is functionally still up and running, but a non critical component needs your attention. The status is error when at least one component has error as status. The API is functionally no longer working.",
+          "type": "string",
+          "enum": [
+            "ok",
+            "warning",
+            "error"
+          ]
+        }
+      }
+    },
+    "ResponseQrCode": {
+      "type": "object",
+      "properties": {
+        "qrcode": {
+          "type": "string"
+        }
+      }
+    },
+    "Component": {
+      "type": "object",
+      "required": [
+        "status",
+        "name",
+        "type",
+        "details"
+      ],
+      "properties": {
+        "name": {
+          "description": "The logical name of the component.",
+          "type": "string"
+        },
+        "errorMessage": {
+          "description": "Optional field describing the error when the component is in status warning or error",
+          "type": "string"
+        },
+        "details": {
+          "description": "Details about the component that can be displayed in the check-mk dashboard",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of the component. Examples are API, Database, SAP, ...",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status is ok when the component is functionally working. The status is warning when the component is still functionally working, but needs your attention. The status is error when the component is no longer able to provide the required functionality to the API.",
+          "type": "string",
+          "enum": [
+            "ok",
+            "warning",
+            "error"
+          ]
+        }
+      }
+    },
+    "Monitoring": {
+      "type": "object",
+      "required": [
+        "status",
+        "components"
+      ],
+      "properties": {
+        "components": {
+          "uniqueItems": false,
+          "description": "The components this API functionally depends on. At least one component needs to provide the functionality of the API.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Component"
+          }
+        },
+        "status": {
+          "description": "The global status of the API. It is determined by the status of each of the components. The status is ok when every component is ok and the API is functionally working. The status is warning when at least one component has warning as status. The API is functionally still up and running, but a non critical component needs your attention. The status is error when at least one component has error as status. The API is functionally no longer working.",
+          "type": "string",
+          "enum": [
+            "ok",
+            "warning",
+            "error"
+          ]
+        }
+      }
+    }
+  },
+  "swagger": "2.0",
+  "info": {
+    "contact": {
+      "name": "Digipolis",
+      "email": "info@digipolis.be"
+    },
+    "description": "Generate a QRCode for SAP invoices",
+    "termsOfService": "None",
+    "title": "QrApiAspnetcore",
+    "version": "v1.0.0"
+  }
+}
