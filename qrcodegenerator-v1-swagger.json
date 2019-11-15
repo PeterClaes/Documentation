@@ -1,0 +1,188 @@
+{
+  "basePath": "/acpaas/qr/v1",
+  "paths": {
+    "/codes": {
+      "post": {
+        "summary": "Generate QrCode",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "description": "Generate a QrCode based on an input string",
+        "operationId": "generateQrCode",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/QrCodeResult"
+            },
+            "description": "Ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Client Error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/InputData"
+            },
+            "in": "body",
+            "name": "PaymentData",
+            "required": true
+          }
+        ],
+        "tags": [
+          "codes"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/codes/sepa": {
+      "post": {
+        "summary": "Generate Sepa Credit Transfer QrCode",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "description": "Based on the data of the person you want to pay(name, bic, iban), this service generates a Qrcode you can scan in a banking application to generate a wire transfer payment",
+        "operationId": "generateSepaCTQr",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/QrCodeResult"
+            },
+            "description": "Ok"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Client Error: Bad request"
+          },
+          "422": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/PaymentData"
+            },
+            "in": "body",
+            "name": "PaymentData",
+            "required": true
+          }
+        ],
+        "tags": [
+          "sepa"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "host": "api-gw-o.antwerpen.be",
+  "schemes": [
+    "https"
+  ],
+  "definitions": {
+    "PaymentData": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "format": "float",
+          "type": "number"
+        },
+        "iban": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "bic": {
+          "type": "string"
+        }
+      }
+    },
+    "QrCodeResult": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string"
+        },
+        "dataUri": {
+          "type": "string"
+        },
+        "mimetype": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "encoding": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "type": "number"
+        }
+      }
+    },
+    "InputData": {
+      "type": "object",
+      "properties": {
+        "inputText": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "swagger": "2.0",
+  "info": {
+    "contact": {
+      "email": "luc.arits@digipolis.be"
+    },
+    "title": "QrCodeGenerator API",
+    "version": "v1"
+  }
+}
