@@ -11,7 +11,7 @@
         "description": "Generate a QrCode based on an input string",
         "operationId": "generateQrCode",
         "responses": {
-          "200": {
+          "201": {
             "schema": {
               "$ref": "#/definitions/QrCodeResult"
             },
@@ -58,7 +58,7 @@
         "description": "Based on the data of the person you want to pay(name, bic, iban), this service generates a Qrcode you can scan in a banking application to generate a wire transfer payment",
         "operationId": "generateSepaCTQr",
         "responses": {
-          "200": {
+          "201": {
             "schema": {
               "$ref": "#/definitions/QrCodeResult"
             },
@@ -183,6 +183,7 @@
       "email": "luc.arits@digipolis.be"
     },
     "title": "QrCodeGenerator API",
+	"description": "QR code Generator",
     "version": "v1"
   }
 }
